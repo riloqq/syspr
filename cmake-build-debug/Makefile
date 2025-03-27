@@ -142,29 +142,18 @@ main1/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main1.dir/build.make CMakeFiles/main1.dir/build
 .PHONY : main1/fast
 
-task1/func.o: task1/func.c.o
-.PHONY : task1/func.o
+#=============================================================================
+# Target rules for targets named main7
 
-# target to build an object file
-task1/func.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/task1.dir/build.make CMakeFiles/task1.dir/task1/func.c.o
-.PHONY : task1/func.c.o
+# Build rule for target.
+main7: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main7
+.PHONY : main7
 
-task1/func.i: task1/func.c.i
-.PHONY : task1/func.i
-
-# target to preprocess a source file
-task1/func.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/task1.dir/build.make CMakeFiles/task1.dir/task1/func.c.i
-.PHONY : task1/func.c.i
-
-task1/func.s: task1/func.c.s
-.PHONY : task1/func.s
-
-# target to generate assembly for a file
-task1/func.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/task1.dir/build.make CMakeFiles/task1.dir/task1/func.c.s
-.PHONY : task1/func.c.s
+# fast build rule for target.
+main7/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main7.dir/build.make CMakeFiles/main7.dir/build
+.PHONY : main7/fast
 
 task1/main1.o: task1/main1.c.o
 .PHONY : task1/main1.o
@@ -190,6 +179,30 @@ task1/main1.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main1.dir/build.make CMakeFiles/main1.dir/task1/main1.c.s
 .PHONY : task1/main1.c.s
 
+task7/main7.o: task7/main7.c.o
+.PHONY : task7/main7.o
+
+# target to build an object file
+task7/main7.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main7.dir/build.make CMakeFiles/main7.dir/task7/main7.c.o
+.PHONY : task7/main7.c.o
+
+task7/main7.i: task7/main7.c.i
+.PHONY : task7/main7.i
+
+# target to preprocess a source file
+task7/main7.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main7.dir/build.make CMakeFiles/main7.dir/task7/main7.c.i
+.PHONY : task7/main7.c.i
+
+task7/main7.s: task7/main7.c.s
+.PHONY : task7/main7.s
+
+# target to generate assembly for a file
+task7/main7.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main7.dir/build.make CMakeFiles/main7.dir/task7/main7.c.s
+.PHONY : task7/main7.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -199,13 +212,14 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main1"
+	@echo "... main7"
 	@echo "... task1"
-	@echo "... task1/func.o"
-	@echo "... task1/func.i"
-	@echo "... task1/func.s"
 	@echo "... task1/main1.o"
 	@echo "... task1/main1.i"
 	@echo "... task1/main1.s"
+	@echo "... task7/main7.o"
+	@echo "... task7/main7.i"
+	@echo "... task7/main7.s"
 .PHONY : help
 
 

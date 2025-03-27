@@ -15,17 +15,9 @@ int user_in_base(User_base* base, const char* lg) {
     }
     return 0;
 }
-int is_pincode_valid(int pin) {
-    if (0 <= pin && pin <= 100000) {
-        return 1;
-    }
-    return 0;
-}
+
 status registration(User_base* base, const char* lg, int pin) {
 
-    if (!is_pincode_valid(pin)) {
-        return WRONG_PASSWORD;
-    }
     if (base->size >= base->capacity) {
         base->capacity *= 2;
         void* new_mem = realloc(base->users, base->capacity * sizeof(User));
@@ -43,9 +35,6 @@ status registration(User_base* base, const char* lg, int pin) {
 
 status autorisation(User_base* base, const char* lg, int pin) {
 
-    if (!is_pincode_valid(pin)) {
-        return WRONG_PASSWORD;
-    }
     for (size_t i = 0; i < base->size; i++) {
         if (!strcmp(base->users[i].login, lg)) {
             if (base->users[i].pincode == pin) {
@@ -191,4 +180,67 @@ int is_login_valid(const char* login) {
         }
     }
     return 1;
+}
+
+void clear_input_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+int get_integer_input(int min, int max, const char* prompt) {
+    int value;
+    char input[MAX_INPUT_LEN];
+
+    while (1) {
+        printf("%s", prompt);
+        if (fgets(input, sizeof(input), stdin) == NULL) {
+            clear_input_buffer();
+            continue;
+        }
+
+        char *endptr;
+        errno = 0;
+        value = strtol(input, &endptr, 10);
+
+        if (endptr == input || *endptr != '\n') {
+            printf("Ошибка: Введите целое число.\n");
+            continue;
+        }
+
+        if (errno == ERANGE || value < min || value > max) {
+            printf("Ошибка: Число должно быть от %d до %d.\n", min, max);
+            continue;
+        }
+
+        return value;
+    }
+}
+
+void get_string_input(char* buffer, size_t size, const char* prompt) {
+    while (1) {
+        printf("%s", prompt);
+        if (fgets(buffer, size, stdin) == NULL) {
+            clear_input_buffer();
+            continue;
+        }
+
+        size_t len = strlen(buffer);
+        if (len > 0 && buffer[len-1] == '\n') {
+            buffer[len-1] = '\0';
+            len--;
+        }
+
+        if (len == 0) {
+            printf("Ошибка: Ввод не может быть пустым.\n");
+            continue;
+        }
+
+        if (len >= size) {
+            printf("Ошибка: Слишком длинный ввод.\n");
+            clear_input_buffer();
+            continue;
+        }
+
+        return;
+    }
 }

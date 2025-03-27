@@ -10,9 +10,12 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ctype.h>
+#include <limits.h>
+#include <errno.h>
 
 #define MAX_LOGIN 7
 #define SECRETCODE 12345
+#define MAX_INPUT_LEN 100
 
 typedef struct {
     char login[MAX_LOGIN];
@@ -40,7 +43,6 @@ status autorisation(User_base* base, const char* lg, int pin);
 status init_user_base(User_base* base, size_t init_capacity);
 status registration(User_base* base, const char* lg, int pin);
 void free_user_base(User_base* base);
-int is_pincode_valid(int pin);
 void getCurrentTime();
 void getCurrentDate();
 void calculateElapsedTime(const char *date, const char *flag);

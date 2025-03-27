@@ -1,4 +1,5 @@
 /mnt/c/Users/Олеся/CLionProjects/sistpr_4/cmake-build-debug/CMakeFiles/task1.dir
 /mnt/c/Users/Олеся/CLionProjects/sistpr_4/cmake-build-debug/CMakeFiles/main1.dir
+/mnt/c/Users/Олеся/CLionProjects/sistpr_4/cmake-build-debug/CMakeFiles/main7.dir
 /mnt/c/Users/Олеся/CLionProjects/sistpr_4/cmake-build-debug/CMakeFiles/edit_cache.dir
 /mnt/c/Users/Олеся/CLionProjects/sistpr_4/cmake-build-debug/CMakeFiles/rebuild_cache.dir

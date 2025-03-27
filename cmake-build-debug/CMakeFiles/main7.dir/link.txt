@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/main7.dir/task7/main7.c.o -o main7 

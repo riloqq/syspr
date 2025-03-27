@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/mnt/c/Users/Олеся/CLionProjects/sistpr_4/task7/main7.c" "CMakeFiles/main7.dir/task7/main7.c.o" "gcc" "CMakeFiles/main7.dir/task7/main7.c.o.d"
   )
 
 # Targets to which this target links.

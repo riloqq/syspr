@@ -41,4 +41,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/task1.dir/DependInfo.cmake"
   "CMakeFiles/main1.dir/DependInfo.cmake"
+  "CMakeFiles/main7.dir/DependInfo.cmake"
   )

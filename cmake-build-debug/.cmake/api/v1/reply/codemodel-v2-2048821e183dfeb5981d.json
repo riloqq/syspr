@@ -16,7 +16,8 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						1,
+						2
 					]
 				}
 			],
@@ -32,7 +33,8 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						1,
+						2
 					]
 				}
 			],
@@ -43,6 +45,13 @@
 					"id" : "main1::@6890427a1f51a3e7e1df",
 					"jsonFile" : "target-main1-Debug-e6a951d9840ab0e72c5e.json",
 					"name" : "main1",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "main7::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-main7-Debug-2eff2db6e062bb8520e5.json",
+					"name" : "main7",
 					"projectIndex" : 0
 				},
 				{

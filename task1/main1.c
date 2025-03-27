@@ -1,4 +1,4 @@
-#include "func.c"
+#include "func.h"
 #pragma once
 
 void print_status(status st) {
@@ -31,61 +31,58 @@ int main() {
 
     st = init_user_base(&base, 2);
     if (st != SUCCESS) {
-        printf("Ошибка при инициализации базы пользователей.\n");
+        print_status(st);
         return 1;
     }
 
-    char command[100];
+    char command[MAX_INPUT_LEN];
     char login[MAX_LOGIN];
     int pin;
 
     while (1) {
         printf("\nВведите команду (register, login, exit): ");
-        scanf("%s", command);
+        get_string_input(command, sizeof(command), "");
 
         if (strcmp(command, "register") == 0) {
             while (1) {
-                printf("Введите логин (не более %d символов): ", MAX_LOGIN - 1);
-                scanf("%s", login);
+                get_string_input(login, sizeof(login), "Введите логин (не более 6 символов): ");
 
-                if (is_login_valid(login)) {
-                    break;
-                } else {
-                    printf("Ошибка: Логин должен содержать не более %d символов.\n", MAX_LOGIN - 1);
+                if (!is_login_valid(login)) {
+                    printf("Ошибка: Логин должен содержать от 1 до 6 символов (a-z, 0-9).\n");
+                    continue;
                 }
+
+                if (user_in_base(&base, login)) {
+                    printf("Ошибка: Логин уже существует.\n");
+                    continue;
+                }
+
+                break;
             }
 
-            if (user_in_base(&base, login)) {
-                st = LOGIN_ALREADY_IN_BASE;
-                print_status(st);
-                continue;
-            }
-
-            printf("Введите PIN-код (от 0 до 100000): ");
-            scanf("%d", &pin);
+            pin = get_integer_input(0, 100000, "Введите PIN-код (от 0 до 100000): ");
 
             st = registration(&base, login, pin);
             printf("Регистрация: ");
             print_status(st);
         }
         else if (strcmp(command, "login") == 0) {
+            int aut = 1;
             while (1) {
-                printf("Введите логин (не более %d символов): ", MAX_LOGIN - 1);
-                scanf("%s", login);
+                get_string_input(login, sizeof(login), "Введите логин: ");
 
-                if (is_login_valid(login)) {
+                if (!user_in_base(&base, login)) {
+                    printf("Ошибка: Логин не найден.\n");
+                    aut = 0;
                     break;
-                } else {
-                    printf("Ошибка: Логин должен содержать не более %d символов.\n", MAX_LOGIN - 1);
                 }
+
+                break;
             }
-            if (!user_in_base(&base, login)) {
-                st = LOGIN_NOT_IN_BASE;
-                print_status(st);
+            if (!aut) {
                 continue;
             }
-            printf("Введите PIN-код: ");
-            scanf("%d", &pin);
+            pin = get_integer_input(0, 100000, "Введите PIN-код: ");
 
             st = autorisation(&base, login, pin);
             printf("Авторизация: ");
@@ -104,7 +101,7 @@ int main() {
 
                 while (1) {
                     printf("\nВведите команду (Time, Date, Howmuch <дата> <флаг>, Sanctions <username> <number>, Logout): ");
-                    scanf(" %[^\n]", command);
+                    get_string_input(command, sizeof(command), "");
 
                     if (base.users[user_index].sunctions > 0) {
                         base.users[user_index].request_count++;
@@ -124,30 +121,27 @@ int main() {
                     }
                     else if (strncmp(command, "Howmuch", 7) == 0) {
                         char date[11], flag[3];
-                        if (sscanf(command, "Howmuch %10s %2s", date, flag) == 2) {
+                        if (sscanf(command + 8, "%10s %2s", date, flag) == 2) {
                             calculateElapsedTime(date, flag);
                         } else {
-                            printf("Ошибка: Неверный формат команды. Используйте: Howmuch <дата> <флаг>\n");
+                            printf("Ошибка: Используйте формат: Howmuch <дата> <флаг>\n");
                         }
                     }
                     else if (strncmp(command, "Sanctions", 9) == 0) {
                         char target_user[MAX_LOGIN];
                         int max_requests;
-                        if (sscanf(command, "Sanctions %s %d", target_user, &max_requests) == 2) {
-                            printf("Для подтверждения введите код: ");
-                            int confirmation;
-                            scanf("%d", &confirmation);
-
+                        if (sscanf(command + 10, "%s %d", target_user, &max_requests) == 2) {
+                            int confirmation = get_integer_input(0, INT_MAX, "Для подтверждения введите код: ");
                             st = set_sanctions(&base, target_user, max_requests, confirmation);
                             if (st == SUCCESS) {
-                                printf("Ограничения установлены: %s не сможет выполнить более %d запросов в сеансе.\n",
+                                printf("Ограничения установлены: %s не сможет выполнить более %d запросов.\n",
                                        target_user, max_requests);
                             } else {
-                                printf("Ошибка при установке ограничений: ");
+                                printf("Ошибка: ");
                                 print_status(st);
                             }
                         } else {
-                            printf("Ошибка: Неверный формат команды. Используйте: Sanctions username <number>\n");
+                            printf("Ошибка: Используйте формат: Sanctions <username> <number>\n");
                         }
                     }
                     else if (strcmp(command, "Logout") == 0) {
@@ -171,6 +165,5 @@ int main() {
 
     free_user_base(&base);
     printf("Память освобождена.\n");
-
     return 0;
 }
