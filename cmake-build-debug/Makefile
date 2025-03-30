@@ -117,17 +117,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named task1
+# Target rules for targets named main5
 
 # Build rule for target.
-task1: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 task1
-.PHONY : task1
+main5: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main5
+.PHONY : main5
 
 # fast build rule for target.
-task1/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/task1.dir/build.make CMakeFiles/task1.dir/build
-.PHONY : task1/fast
+main5/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main5.dir/build.make CMakeFiles/main5.dir/build
+.PHONY : main5/fast
 
 #=============================================================================
 # Target rules for targets named main1
@@ -179,6 +179,30 @@ task1/main1.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main1.dir/build.make CMakeFiles/main1.dir/task1/main1.c.s
 .PHONY : task1/main1.c.s
 
+task5/main5.o: task5/main5.c.o
+.PHONY : task5/main5.o
+
+# target to build an object file
+task5/main5.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main5.dir/build.make CMakeFiles/main5.dir/task5/main5.c.o
+.PHONY : task5/main5.c.o
+
+task5/main5.i: task5/main5.c.i
+.PHONY : task5/main5.i
+
+# target to preprocess a source file
+task5/main5.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main5.dir/build.make CMakeFiles/main5.dir/task5/main5.c.i
+.PHONY : task5/main5.c.i
+
+task5/main5.s: task5/main5.c.s
+.PHONY : task5/main5.s
+
+# target to generate assembly for a file
+task5/main5.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main5.dir/build.make CMakeFiles/main5.dir/task5/main5.c.s
+.PHONY : task5/main5.c.s
+
 task7/main7.o: task7/main7.c.o
 .PHONY : task7/main7.o
 
@@ -212,11 +236,14 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main1"
+	@echo "... main5"
 	@echo "... main7"
-	@echo "... task1"
 	@echo "... task1/main1.o"
 	@echo "... task1/main1.i"
 	@echo "... task1/main1.s"
+	@echo "... task5/main5.o"
+	@echo "... task5/main5.i"
+	@echo "... task5/main5.s"
 	@echo "... task7/main7.o"
 	@echo "... task7/main7.i"
 	@echo "... task7/main7.s"
