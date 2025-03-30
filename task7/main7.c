@@ -22,7 +22,7 @@ void list_directory(const char *dirname) {
     }
 
     printf("Содержимое каталога %s:\n", dirname);
-    printf("%-20s %-10s %-10s %s\n", "Имя", "Размер", "INODE", "Первый блок");
+    printf("%-20s %-25s %-10s %s\n", "Имя", "Размер", "INODE", "Первый блок");
 
     while ((entry = readdir(dir)) != NULL) {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)

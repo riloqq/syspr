@@ -1,4 +1,6 @@
 /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -S /mnt/c/Users/Олеся/CLionProjects/sistpr_4 -B /mnt/c/Users/Олеся/CLionProjects/sistpr_4/cmake-build-debug
 -- Configuring done
+CMake Error: Cannot determine link language for target "task1".
+CMake Error: CMake can not determine linker language for target: task1
 -- Generating done
--- Build files have been written to: /mnt/c/Users/Олеся/CLionProjects/sistpr_4/cmake-build-debug
+CMake Generate step failed.  Build files cannot be regenerated correctly.
