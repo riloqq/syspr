@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -9,44 +8,53 @@
 #define MAX_CMD_LEN 128
 #define MAX_RESPONSE_LEN 512
 
+int safe_print(const char* msg) {
+    return write(STDOUT_FILENO, msg, strlen(msg));
+}
+
+int safe_error(const char* msg) {
+    return write(STDERR_FILENO, msg, strlen(msg));
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        fprintf(stderr, "Usage: %s <commands_file>\n", argv[0]);
-        return EXIT_FAILURE;
+        safe_error("Usage: ./client <commands_file>\n");
+        return 1;
     }
 
     FILE* file = fopen(argv[1], "r");
     if (!file) {
-        perror("Error opening command file");
-        return EXIT_FAILURE;
+        safe_error("Error: Unable to open commands file\n");
+        return 1;
     }
 
     char cmd[MAX_CMD_LEN];
     char response[MAX_RESPONSE_LEN];
+    int game_over = 0;
 
-    while (fgets(cmd, sizeof(cmd), file)) {
+    while (!game_over && fgets(cmd, sizeof(cmd), file)) {
         cmd[strcspn(cmd, "\r\n")] = '\0';
 
         int fd_write = open(FIFO_CLIENT_TO_SERVER, O_WRONLY);
         if (fd_write == -1) {
-            perror("Error opening write FIFO");
+            safe_error("Error: Unable to open write FIFO\n");
             fclose(file);
-            return EXIT_FAILURE;
+            return 1;
         }
 
         if (write(fd_write, cmd, strlen(cmd)) == -1) {
-            perror("Error writing to FIFO");
+            safe_error("Error: Writing to FIFO failed\n");
             close(fd_write);
             fclose(file);
-            return EXIT_FAILURE;
+            return 1;
         }
         close(fd_write);
 
         int fd_read = open(FIFO_SERVER_TO_CLIENT, O_RDONLY);
         if (fd_read == -1) {
-            perror("Error opening read FIFO");
+            safe_error("Error: Unable to open read FIFO\n");
             fclose(file);
-            return EXIT_FAILURE;
+            return 1;
         }
 
         int n = read(fd_read, response, sizeof(response) - 1);
@@ -54,19 +62,18 @@ int main(int argc, char* argv[]) {
 
         if (n > 0) {
             response[n] = '\0';
-            printf(">> %s\n", response);
+            safe_print(">> ");
+            safe_print(response);
 
             if (strstr(response, "Fail:") != NULL) {
-                printf("Game lost. Client exiting.\n");
-                break;
-            }
-
-            if (strstr(response, "Win:") != NULL) {
-                printf("Game won. Client exiting.\n");
-                break;
+                safe_print("Game lost. Client exiting.\n");
+                game_over = 1;
+            } else if (strstr(response, "Success:") != NULL) {
+                safe_print("Game won. Client exiting.\n");
+                game_over = 1;
             }
         } else {
-            fprintf(stderr, "No response from server.\n");
+            safe_error("Error: No response from server.\n");
             break;
         }
 
@@ -74,5 +81,5 @@ int main(int argc, char* argv[]) {
     }
 
     fclose(file);
-    return EXIT_SUCCESS;
+    return 0;
 }
